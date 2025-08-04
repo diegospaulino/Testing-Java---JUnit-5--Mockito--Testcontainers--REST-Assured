@@ -12,6 +12,6 @@ public class CalculatorTest {
         int result = calculator.integerDivision(4, 2);
 
         // Assert that the result is as expected
-        assertEquals(2, result, "The integer division of 4 by 2 should be 2"); 
+        assertEquals(2, result, "O resultado dessa ação tem que ser 2"); 
     }
 }
