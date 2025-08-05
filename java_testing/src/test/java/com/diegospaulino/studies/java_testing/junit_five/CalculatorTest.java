@@ -1,17 +1,91 @@
 package com.diegospaulino.studies.java_testing.junit_five;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Testes de operações matemáticas na classe Calculator")
 public class CalculatorTest {
 
+    Calculator calculator;
+
+    @BeforeAll
+    static void setup() {
+        System.out.println("Executando o método setup antes de todos os testes");
+    }
+
+    @AfterAll
+    static void cleanUp() {
+        System.out.println("Executando o método cleanUp após todos os testes");
+    }
+
+    @BeforeEach
+    void beforeEachTestMethod() {
+        System.out.println("Executando o método @BeforeEach");
+        calculator = new Calculator();
+    }
+
+    @AfterEach
+    void afterEachTestMethod() {
+        System.out.println("Executando o método @AfterEach");
+        // Aqui você pode limpar ou reinicializar recursos, se necessário
+    }
+
+    //Template para dar nome os métodos de testes
+    //test<O que vai ser testado>_<Condições ou mudança de estado>_<Resultado esperado>
+    @DisplayName("Testando 4/2 = 2")
     @Test
-    void integerDivision() {
-        Calculator calculator = new Calculator();
-        int result = calculator.integerDivision(4, 2);
+    void testintegerDivision_WhenFourIsDividecByTwo_ShouldReturnTwo() {
+        System.out.println("Executando o teste testintegerDivision_WhenFourIsDividecByTwo_ShouldReturnTwo");
+        // Arrange: Configura o ambiente de teste //Given
+        int dividend = 4;
+        int divisor = 2;
+        int expectedResult = 2;
+
+        // Act: Executa a ação que será testada //When
+        int actualResult = calculator.integerDivision(dividend, divisor);
+
+        // Assert: Verifica se o resultado é o esperado //Then
+        assertEquals(expectedResult, actualResult, "O resultado dessa ação tem que ser 2");  
+    }
+
+    @Disabled("TODO: Implementar teste para divisão por zero-")
+    @DisplayName("Testando divisão por zero")
+    @Test
+    void testIntegerDivision_WhenDividendIsDividedByZero_ShouldThrowArithmeticException() {
+        System.out.println("Executando o teste testIntegerDivision_WhenDividendIsDividedByZero_ShouldThrowArithmeticException");
+        // // Arrange: Configura o ambiente de teste //Given
+        // int dividend = 4;
+        // int divisor = 0;
+
+        // // Act: Executa a ação que será testada //When
+        // //int actualResult = calculator.integerDivision(dividend, divisor);
+
+        // // Assert: Verifica se o resultado é o esperado //Then
+        // //assertNull(actualResult, "Divisão por zero deve retornar nulo");
+        
+        fail("Divisão por zero deve lançar uma exceção do tipo ArithmeticException");
+    }
+
+    @DisplayName("Testando subtração 33-1=32")
+    @Test
+    void testIntegerSubtraction() {
+        System.out.println("Executando o teste testIntegerSubtraction");
+        int minuend = 33;
+        int subtrahend = 1;
+        int expectedResult = 32;
+
+        int actualResult = calculator.integerSubtraction(minuend, subtrahend);
 
         // Assert that the result is as expected
-        assertEquals(2, result, "O resultado dessa ação tem que ser 2"); 
+        //Aplicado lambda no início do texto da mensagem para que só seja executado se o teste falhar
+        assertEquals(expectedResult, actualResult, () -> minuend + "-" + subtrahend + " não produziu o resultado esperado de " + expectedResult);
     }
 }
