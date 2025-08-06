@@ -1,6 +1,7 @@
 package com.diegospaulino.studies.java_testing.junit_five;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.AfterAll;
@@ -18,27 +19,27 @@ public class CalculatorTest {
 
     @BeforeAll
     static void setup() {
-        System.out.println("Executando o método setup antes de todos os testes");
+        System.out.println("Executando o metodo setup antes de todos os testes");
     }
 
     @AfterAll
     static void cleanUp() {
-        System.out.println("Executando o método cleanUp após todos os testes");
+        System.out.println("Executando o metodo cleanUp após todos os testes");
     }
 
     @BeforeEach
     void beforeEachTestMethod() {
-        System.out.println("Executando o método @BeforeEach");
+        System.out.println("Executando o metodo @BeforeEach");
         calculator = new Calculator();
     }
 
     @AfterEach
     void afterEachTestMethod() {
-        System.out.println("Executando o método @AfterEach");
+        System.out.println("Executando o metodo @AfterEach");
         // Aqui você pode limpar ou reinicializar recursos, se necessário
     }
 
-    //Template para dar nome os métodos de testes
+    //Template para dar nome os metodos de testes
     //test<O que vai ser testado>_<Condições ou mudança de estado>_<Resultado esperado>
     @DisplayName("Testando 4/2 = 2")
     @Test
@@ -56,22 +57,25 @@ public class CalculatorTest {
         assertEquals(expectedResult, actualResult, "O resultado dessa ação tem que ser 2");  
     }
 
-    @Disabled("TODO: Implementar teste para divisão por zero-")
+   // @Disabled("TODO: Implementar teste para divisão por zero-")
     @DisplayName("Testando divisão por zero")
     @Test
     void testIntegerDivision_WhenDividendIsDividedByZero_ShouldThrowArithmeticException() {
         System.out.println("Executando o teste testIntegerDivision_WhenDividendIsDividedByZero_ShouldThrowArithmeticException");
-        // // Arrange: Configura o ambiente de teste //Given
-        // int dividend = 4;
-        // int divisor = 0;
+        // Arrange: Configura o ambiente de teste //Given
+        int dividend = 4;
+        int divisor = 0;
+        String expectedExceptionMessage = "/ by zero";
 
-        // // Act: Executa a ação que será testada //When
-        // //int actualResult = calculator.integerDivision(dividend, divisor);
-
-        // // Assert: Verifica se o resultado é o esperado //Then
-        // //assertNull(actualResult, "Divisão por zero deve retornar nulo");
-        
-        fail("Divisão por zero deve lançar uma exceção do tipo ArithmeticException");
+        // Act & Assert: Executa a ação que será testada //When
+        ArithmeticException actualException = assertThrows(ArithmeticException.class, () -> {
+            calculator.integerDivision(dividend, divisor);
+        }, "Divisão por zero deve lançar uma exceção do tipo ArithmeticException");
+        System.out.println(actualException.getMessage());
+        // Assert: Verifica se o resultado é o esperado //Then
+        assertEquals(expectedExceptionMessage, actualException.getMessage(), 
+            "Mensagem de exceção não corresponde à esperada");
+        //fail("Divisão por zero deve lançar uma exceção do tipo ArithmeticException");
     }
 
     @DisplayName("Testando subtração 33-1=32")
